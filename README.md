@@ -226,3 +226,7 @@ GROQ_API_KEY = "your_api_key_here"
 ## Summary
 
 This project demonstrates how AI can automate CRM marketing workflows in ecommerce by combining customer data with large language models to generate personalized content at scale.
+
+
+
+## Link : https://pohjoinen-ai-email-demo-ccqe85ms79vppnbbu2ftmc.streamlit.app
