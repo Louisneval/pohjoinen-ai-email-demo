@@ -1,48 +1,80 @@
-# AI CRM Email Personalization Tool
+# 📧 AI CRM Email Personalization Tool (Pohjoinen Case Study)
 
-## Overview
-This project is an AI-powered CRM automation tool built for Pohjoinen, an outdoor ecommerce company.
+## 🚀 Overview
 
-It generates:
-- Customer segmentation
-- Personalized marketing emails
-- Product recommendations
+This project is an AI-powered CRM automation tool built for **Pohjoinen**, an outdoor ecommerce company in Finland.
 
-## Problem
-Marketing team manually creates:
-- email campaigns
+It simulates a real marketing workflow where AI automatically:
+
+- Segments customers based on purchase behavior
+- Generates personalized marketing emails
+- Recommends product categories
+- Reduces manual CRM workload
+
+The goal is to demonstrate how AI can scale marketing operations without increasing team size.
+
+---
+
+## 🎯 Business Problem
+
+Pohjoinen has:
+
+- 180,000+ customers
+- 8,000 products
+- strong seasonal demand (winter, camping, cycling, running)
+
+### Current issue:
+
+Marketing team manually handles:
+
+- email writing
 - segmentation
 - product targeting
+- campaign personalization
 
-This is slow and not scalable for 180,000 users.
+This results in:
 
-## Solution
-AI system using:
-- Groq LLM (llama-3.1-8b-instant)
-- Streamlit UI
-- CSV-based customer input
+- slow campaign production
+- low personalization
+- missed seasonal opportunities
+- high operational workload
 
-## Features
-- Upload customer CSV
-- Automatic segmentation based on spend
-- AI-generated email content
-- Product recommendations
-- Export results
+---
 
-## Tech Stack
-- Python
-- Streamlit
+## 💡 AI Solution
+
+This tool automates the entire CRM content pipeline using AI:
+
+### What it does:
+
+1. Reads customer data (CSV)
+2. Analyzes spend & category
+3. Uses an LLM (Groq / Llama 3) to:
+   - assign customer segment
+   - generate marketing email
+   - suggest product category
+
+---
+
+## 🧠 AI Model Used
+
 - Groq API
-- Pandas
+- Model: `llama-3.1-8b-instant`
+- Used for:
+  - natural language generation
+  - personalization
+  - marketing copy creation
 
-## AI Role
-LLM is used for:
-- natural language generation
-- personalization
-- marketing copy creation
+---
 
-## How to run
+## 🛠 Tech Stack
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
+- Python
+- Streamlit (UI)
+- Groq API (LLM inference)
+- Pandas (data processing)
+- dotenv (environment variables)
+
+---
+
+## 📂 Project Structure
