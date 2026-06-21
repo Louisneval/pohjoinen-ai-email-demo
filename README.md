@@ -1,80 +1,228 @@
 # 📧 AI CRM Email Personalization Tool (Pohjoinen Case Study)
 
-## 🚀 Overview
+## Overview
 
-This project is an AI-powered CRM automation tool built for **Pohjoinen**, an outdoor ecommerce company in Finland.
+This project is an AI-powered CRM automation tool built for Pohjoinen, an outdoor ecommerce company in Finland.
 
-It simulates a real marketing workflow where AI automatically:
+The system automatically generates customer segmentation, personalized marketing emails, and product recommendations using AI.
 
-- Segments customers based on purchase behavior
-- Generates personalized marketing emails
-- Recommends product categories
-- Reduces manual CRM workload
-
-The goal is to demonstrate how AI can scale marketing operations without increasing team size.
+It is designed to simulate how modern ecommerce companies can scale marketing operations using LLMs.
 
 ---
 
-## 🎯 Business Problem
+## Business Problem
 
 Pohjoinen has:
 
 - 180,000+ customers
 - 8,000 products
-- strong seasonal demand (winter, camping, cycling, running)
+- highly seasonal demand (winter, camping, cycling, running)
 
-### Current issue:
+Marketing teams currently spend a lot of time manually:
 
-Marketing team manually handles:
+- writing email campaigns
+- segmenting customers
+- selecting product recommendations
 
-- email writing
-- segmentation
-- product targeting
-- campaign personalization
-
-This results in:
-
-- slow campaign production
-- low personalization
-- missed seasonal opportunities
-- high operational workload
+This process is slow, repetitive, and does not scale.
 
 ---
 
-## 💡 AI Solution
+## Solution
 
-This tool automates the entire CRM content pipeline using AI:
+This project automates CRM marketing workflows using AI.
 
-### What it does:
+The system:
 
-1. Reads customer data (CSV)
-2. Analyzes spend & category
-3. Uses an LLM (Groq / Llama 3) to:
-   - assign customer segment
-   - generate marketing email
-   - suggest product category
+- reads customer data from CSV
+- analyzes spending and category
+- generates customer segments
+- creates personalized marketing emails
+- recommends product categories
 
----
-
-## 🧠 AI Model Used
-
-- Groq API
-- Model: `llama-3.1-8b-instant`
-- Used for:
-  - natural language generation
-  - personalization
-  - marketing copy creation
+All outputs are generated automatically using a Large Language Model.
 
 ---
 
-## 🛠 Tech Stack
+## AI Model
+
+The system uses Groq API with:
+
+- model: llama-3.1-8b-instant
+
+The model is responsible for:
+
+- natural language generation
+- marketing copy creation
+- customer personalization
+- segmentation logic
+
+---
+
+## Tech Stack
 
 - Python
-- Streamlit (UI)
-- Groq API (LLM inference)
-- Pandas (data processing)
-- dotenv (environment variables)
+- Streamlit
+- Groq API
+- Pandas
+- python-dotenv
 
 ---
 
-## 📂 Project Structure
+## Project Structure
+
+app.py → Streamlit frontend  
+services/generator.py → AI generation logic  
+utils/prompts.py → prompt templates  
+data/customers.csv → sample dataset  
+requirements.txt → dependencies  
+.gitignore → ignored files configuration  
+
+---
+
+## How It Works
+
+1. User uploads a CSV file with customer data
+2. The system reads each customer row
+3. AI processes:
+   - customer name
+   - category
+   - spend
+4. AI returns:
+   - segment
+   - subject line
+   - personalized email
+   - product recommendation
+5. Results are displayed in a web UI
+
+---
+
+## Input Format (CSV)
+
+The file must contain:
+
+customer,category,spend
+
+Example:
+
+Anna,winter,480  
+Mark,cycling,120  
+Emma,camping,700  
+Leo,running,90  
+
+---
+
+## Output Format
+
+For each customer the system generates:
+
+SEGMENT: High Value Customer  
+SUBJECT: Upgrade Your Winter Gear  
+EMAIL: Personalized marketing message based on customer behavior  
+RECOMMENDATION: winter gear  
+
+---
+
+## Setup Instructions
+
+### 1. Clone repository
+
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git  
+cd YOUR_REPO  
+
+---
+
+### 2. Create virtual environment
+
+python -m venv venv  
+source venv/bin/activate (Mac/Linux)  
+venv\Scripts\activate (Windows)  
+
+---
+
+### 3. Install dependencies
+
+pip install -r requirements.txt  
+
+---
+
+### 4. Get API Key
+
+Go to:
+
+https://console.groq.com
+
+Create an account and generate an API key.
+
+---
+
+### 5. Create environment file
+
+Create a file named .env in the project root:
+
+GROQ_API_KEY=your_api_key_here  
+
+---
+
+### 6. Run the app
+
+streamlit run app.py  
+
+Open:
+
+http://localhost:8501  
+
+---
+
+## Features
+
+- AI-powered customer segmentation
+- Automated email generation
+- Product recommendation engine
+- CSV batch processing
+- Simple web interface
+
+---
+
+## Business Value
+
+This system helps ecommerce teams:
+
+- scale personalization to 180,000+ users
+- reduce manual CRM workload
+- improve email marketing performance
+- react faster to seasonal demand
+- increase customer engagement
+
+---
+
+## Deployment
+
+This project can be deployed using Streamlit Cloud.
+
+Steps:
+
+1. Push code to GitHub
+2. Go to https://streamlit.io/cloud
+3. Connect repository
+4. Select app.py as entry point
+
+Add API key in Streamlit Secrets:
+
+GROQ_API_KEY = "your_api_key_here"
+
+---
+
+## Future Improvements
+
+- integration with Klaviyo
+- A/B testing for email subject lines
+- advanced customer segmentation models
+- automated campaign scheduling
+- multi-model AI comparison
+
+---
+
+## Summary
+
+This project demonstrates how AI can automate CRM marketing workflows in ecommerce by combining customer data with large language models to generate personalized content at scale.
