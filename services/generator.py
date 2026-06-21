@@ -1,11 +1,30 @@
 import os
 from groq import Groq
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+CATEGORY_MAP = {
+    "winter": "winter gear",
+    "cycling": "cycling gear",
+    "camping": "camping gear",
+    "running": "running gear",
+}
+
+
+def get_client():
+    api_key = os.getenv("GROQ_API_KEY")
+
+    if not api_key:
+        raise ValueError("Missing GROQ_API_KEY")
+
+    return Groq(api_key=api_key)
 
 
 def generate_customer_output(row):
 
+    client = get_client()
+
+    customer = str(row["customer"]).strip()
+    category = str(row["category"]).strip().lower()
     spend = float(row["spend"])
 
     if spend > 300:
@@ -15,38 +34,87 @@ def generate_customer_output(row):
     else:
         segment = "Low Value Customer"
 
+    recommendation = CATEGORY_MAP.get(category, f"{category} gear")
+
     prompt = f"""
 You are an AI CRM assistant for an outdoor ecommerce company.
 
-Rules:
-- Return ONLY structured output
-- EMAIL must be marketing text (NOT email address)
-- RECOMMENDATION must be one of: winter gear, cycling gear, camping gear, running gear
+STRICT RULES:
 
-Customer data:
-Name: {row['customer']}
-Category: {row['category']}
-Spend: {spend}
+- Return ONLY the required output
+- Do NOT add explanations
+- Do NOT add notes
+- EMAIL must be marketing text ONLY
+- EMAIL must NEVER contain email addresses
+- EMAIL must be exactly 2–3 sentences
+- SUBJECT must be maximum 6 words
+- Keep recommendations aligned with category
+- Use concise professional marketing tone
 
-Output format:
+Customer:
+{customer}
+
+Category:
+{category}
+
+Spend:
+{spend}
+
+Return EXACTLY this format:
+
 SEGMENT: {segment}
-SUBJECT: short engaging subject (max 6 words)
-EMAIL: 2-3 sentence personalized marketing message referencing spend or category
-RECOMMENDATION: matching product category
+SUBJECT: ...
+EMAIL: ...
+RECOMMENDATION: {recommendation}
 """
 
     try:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
             temperature=0.3,
         )
 
-        return response.choices[0].message.content.strip()
+        result = response.choices[0].message.content.strip()
+
+        lines = result.split("\n")
+
+        updated = []
+
+        recommendation_found = False
+
+        for line in lines:
+
+            if line.startswith("RECOMMENDATION:"):
+                updated.append(
+                    f"RECOMMENDATION: {recommendation}"
+                )
+                recommendation_found = True
+
+            else:
+                updated.append(line)
+
+        if not recommendation_found:
+            updated.append(
+                f"RECOMMENDATION: {recommendation}"
+            )
+
+        result = "\n".join(updated)
+
+        if "@" in result:
+            result = result.replace("@", "")
+
+        return result
 
     except Exception as e:
+
         return f"""SEGMENT: {segment}
-SUBJECT: Special Offer for You
-EMAIL: Hi {row['customer']}, we have curated outdoor deals based on your activity.
-RECOMMENDATION: {row['category']}
+SUBJECT: Special Offer For You
+EMAIL: Hi {customer}, explore our latest outdoor collection selected for your interests.
+RECOMMENDATION: {recommendation}
 ERROR: {str(e)}"""
